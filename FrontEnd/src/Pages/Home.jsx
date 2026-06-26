@@ -12,7 +12,7 @@ export default function Home() {
                 {/* Header */}
                 <div className="mb-8 text-center">
                     <h1 className="text-4xl font-semibold text-primary">
-                        OurBank
+                        ARBank
                     </h1>
 
                     <p>
