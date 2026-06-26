@@ -1,1 +1,98 @@
 @import "tailwindcss";
+
+/* 1. Define your raw theme variables */
+:root {
+    /* Core Theme */
+    --color-primary: #3b82f6;
+    /* Vibrant Blue */
+    --color-bg: #ffffff;
+    /* Pure White Page Background */
+    --color-text: #1f2937;
+    /* Dark Charcoal Primary Text */
+
+    /* 10 Additional Utility & Semantic Colors */
+    --color-secondary: #4b5563;
+    /* Muted Gray for secondary actions/badges */
+    --color-accent: #8b5cf6;
+    /* Purple for highlights, features, or active states */
+    --color-surface: #f3f4f6;
+    /* Light gray card/sidebar backgrounds */
+    --color-border: #e5e7eb;
+    /* Light gray subtle divider borders */
+
+    --color-success: #10b981;
+    /* Emerald Green for successful operations/alerts */
+    --color-warning: #f59e0b;
+    /* Amber Yellow for warnings/pending notifications */
+    --color-error: #ef4444;
+    /* Tomato Red for destructive actions/errors */
+    --color-info: #06b6d4;
+    /* Cyan for informational popups/banners */
+
+    --color-muted: #6b7280;
+    /* Cool Gray for secondary/subtle text labels */
+    --color-overlay: rgba(0, 0, 0, 0.4);
+    /* Transparent black for modal backdrops */
+}
+
+[data-theme="dark"] {
+    /* Core Theme */
+    --color-primary: #60a5fa;
+    /* Lighter, softer Blue for dark contrast */
+    --color-bg: #111827;
+    /* Deep Navy Page Background */
+    --color-text: #f9fafb;
+    /* Crisp Off-White Primary Text */
+
+    /* 10 Additional Utility & Semantic Colors (Dark Mode Adjustments) */
+    --color-secondary: #9ca3af;
+    /* Lighter Gray for dark mode secondary actions */
+    --color-accent: #a78bfa;
+    /* Softer Neon Purple for dark mode highlight */
+    --color-surface: #1f2937;
+    /* Darker Charcoal card backgrounds */
+    --color-border: #374151;
+    /* Muted, darker border lines */
+
+    --color-success: #34d399;
+    /* Softer Green for high contrast on dark surfaces */
+    --color-warning: #fbbf24;
+    /* Softer Amber for high contrast on dark surfaces */
+    --color-error: #f87171;
+    /* Softer Red for high contrast on dark surfaces */
+    --color-info: #22d3ee;
+    /* Softer Cyan for high contrast on dark surfaces */
+
+    --color-muted: #9ca3af;
+    /* Light Slate Gray for secondary/subtle text labels */
+    --color-overlay: rgba(0, 0, 0, 0.7);
+    /* Darker transparent backdrop for high contrast modals */
+}
+
+/* 2. Register them with Tailwind v4 */
+@theme {
+    /* Original mappings */
+    --color-primary: var(--color-primary);
+    --color-bg: var(--color-bg);
+    --color-text: var(--color-text);
+
+    /* The 10 new utility classes mapped to Tailwind v4 */
+    --color-secondary: var(--color-secondary);
+    --color-accent: var(--color-accent);
+    --color-surface: var(--color-surface);
+    --color-border: var(--color-border);
+    /* Renamed so it doesn't conflict with core tailwind border utilities */
+
+    --color-success: var(--color-success);
+    --color-warning: var(--color-warning);
+    --color-error: var(--color-error);
+    --color-info: var(--color-info);
+
+    --color-muted: var(--color-muted);
+    --color-overlay: var(--color-overlay);
+}
+
+
+body {
+    @apply bg-bg text-text overflow-y-scroll;
+}
