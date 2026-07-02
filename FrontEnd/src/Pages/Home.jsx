@@ -7,8 +7,8 @@ export default function Home() {
     const [openSignInForm, setOpenSignInForm] = useState(true);
 
     return (
-        <main className="container mx-auto flex min-h-screen items-center justify-center px-4">
-            <section className="w-full max-w-md rounded-2xl bg-surface p-6 shadow-xl transition-all duration-300">
+        <main className="container m-auto flex items-center justify-center px-4">
+            <section className="w-full my-2 max-w-md rounded-2xl bg-surface p-6 shadow-xl transition-all duration-300">
                 {/* Header */}
                 <div className="mb-8 text-center">
                     <h1 className="text-4xl font-semibold text-primary">

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-
+import axios from 'axios';
 
 import Input from "../Utils/Input";
 import Button from "../Utils/Button";
+import links from "../Essentials/links";
 
 export default function SignIn() {
 
-    const [credentials, setCredentials] = useState({
+    const [signInCredentials, setSignInCredentials] = useState({
         username: '',
         password: ''
     })
@@ -15,16 +16,45 @@ export default function SignIn() {
         username: '',
         password: ''
     })
+
+    const handleSignIn = async () => {
+        try {
+            const response = await axios.post(
+                links.serverName + '/sign-in',
+                signInCredentials,
+                { withCredentials: true, }
+            )
+            console.log(response.data)
+        } catch (error) {
+            console.error('Error signing in:', error.response)
+        }
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const errors = {
+            username: signInCredentials.username.trim() ? "" : "Required",
+            password: signInCredentials.password.trim() ? "" : "Required",
+        };
+
+        setErr(errors);
+
+        if (errors.username || errors.password) return
+        else
+            handleSignIn()
+    }
+
     return (
-        <form className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5">
             <Input
                 label="Username"
                 id="username"
                 type="text"
                 placeholder="Enter your username"
-                value={credentials.username}
+                value={signInCredentials.username}
                 onChange={(e) => {
-                    setCredentials((prev) => ({
+                    setSignInCredentials((prev) => ({
                         ...prev,
                         username: e.target.value
                     }))
@@ -39,10 +69,10 @@ export default function SignIn() {
                 label="Password"
                 id="password"
                 type="password"
-                placeholder="Enter your username"
-                value={credentials.password}
+                placeholder="Enter your password"
+                value={signInCredentials.password}
                 onChange={(e) => {
-                    setCredentials((prev) => ({
+                    setSignInCredentials((prev) => ({
                         ...prev,
                         password: e.target.value
                     }))
@@ -57,9 +87,9 @@ export default function SignIn() {
                 <span className=" block text-sm text-primary underline">Forget username or password?</span>
 
                 <Button
+                    type="submit"
                     label="Sign in"
                     className="bg-success"
-                    onClick={() => alert(credentials.username + ' ' + credentials.password)}
                 />
             </div>
         </form>

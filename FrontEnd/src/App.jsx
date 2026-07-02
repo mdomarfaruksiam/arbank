@@ -12,6 +12,7 @@ import authUser from "./Essentials/authUser";
 import Home from "./Pages/Home";
 import PublicLayout from "./Layout/PublicLayout";
 import PrivateLayout from "./Layout/PrivateLayout";
+import SignOut from "./Essentials/signOut";
 
 
 export default function App() {
@@ -30,6 +31,10 @@ export default function App() {
                 index: true,
                 element: isLoggedIn ? <>loggedIn</> : <Home />
               },
+              {
+                path: '/sign-out',
+                element: <SignOut />
+              }
             ]
           },
           { path: "*", element: <h1>not found</h1> }

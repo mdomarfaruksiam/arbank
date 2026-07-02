@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 import Input from "../Utils/Input";
 import Button from "../Utils/Button";
+import links from "../Essentials/links";
 
 export default function SignUp() {
     const [step, setStep] = useState(1);
@@ -48,8 +50,6 @@ export default function SignUp() {
             if (!credentials.username.trim())
                 errors.username = "Username is required.";
 
-            if (!credentials.email.trim())
-                errors.email = "Email is required.";
 
             if (!credentials.phone.trim())
                 errors.phone = "Phone number is required.";
@@ -69,7 +69,7 @@ export default function SignUp() {
         setStep(1);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const errors = {};
@@ -95,9 +95,18 @@ export default function SignUp() {
 
         if (Object.keys(errors).length) return;
 
-        console.log(credentials);
+        try {
+            const response = await axios.post(
+                links.serverName + "/sign-up",
+                credentials
+            );
 
-        alert("Registration Successful!");
+            console.log(response.data);
+            alert("Registration Successful!");
+
+        } catch (error) {
+            console.log(error.response?.data);
+        }
     };
 
     return (
