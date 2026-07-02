@@ -106,6 +106,7 @@ export default function SignUp() {
 
         } catch (error) {
             console.log(error.response?.data);
+            alert(error.response?.data?.message || "An error occurred during registration.");
         }
     };
 
