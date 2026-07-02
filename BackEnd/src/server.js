@@ -24,7 +24,7 @@ app.use(
         origin: [
             "http://localhost:5173",
             "http://192.168.0.104:5173",
-            'https://arbank.netlify.app/',
+            'https://arbank.netlify.app',
         ],
         credentials: true,
     })
