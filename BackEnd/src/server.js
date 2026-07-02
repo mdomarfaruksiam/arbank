@@ -27,10 +27,17 @@ app.use(
     })
 );
 
+app.get("/", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "ArBank Backend is running 🚀",
+    });
+});
+
 app.use('/', signUp)
 app.use("/", signIn);
 app.use("/", signOut);
 
-app.listen(port, hostName, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`🚀 Server running at http://192.168.0.104:${port}`);
 });
