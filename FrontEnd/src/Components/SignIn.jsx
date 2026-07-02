@@ -25,6 +25,7 @@ export default function SignIn() {
                 { withCredentials: true, }
             )
             console.log(response.data)
+            alert(response.data.message)
         } catch (error) {
             console.error('Error signing in:', error.response)
         }
