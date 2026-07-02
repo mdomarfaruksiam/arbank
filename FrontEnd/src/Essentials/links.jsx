@@ -1,7 +1,5 @@
-import React from 'react'
-
 const links = {
-    serverName: 'https://arbank.onrender.com/',
-}
+    serverName: import.meta.env.VITE_SERVER_URL,
+};
 
-export default links
+export default links;

@@ -1,26 +1,35 @@
 require("dotenv").config();
 
+const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+
 const dbConnection = require("./database/dbConnection");
-
-const express = require("express");
-const app = express();
-
-dbConnection();
 
 const signUp = require("./routes/sign-up");
 const signIn = require("./routes/sign-in");
 const signOut = require("./routes/sign-out");
 
+const app = express();
 
-const hostName = "0.0.0.0";
-const port = 5000;
+// Connect to MongoDB
+dbConnection();
 
-
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
 
+app.use(
+    cors({
+        origin: [
+            "http://192.168.0.104:5173",
+            "https://your-netlify-site.netlify.app" // Replace this after deploying your frontend
+        ],
+        credentials: true,
+    })
+);
+
+// Health Check
 app.get("/", (req, res) => {
     res.status(200).json({
         success: true,
@@ -28,10 +37,14 @@ app.get("/", (req, res) => {
     });
 });
 
-app.use('/', signUp)
+// Routes
+app.use("/", signUp);
 app.use("/", signIn);
 app.use("/", signOut);
 
-app.listen(port, '0.0.0.0', () => {
-    console.log(`🚀 Server running at http://192.168.0.104:${port}`);
+// Start Server
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
 });
