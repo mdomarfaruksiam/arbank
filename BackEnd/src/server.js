@@ -12,7 +12,6 @@ const signOut = require("./routes/sign-out");
 
 const app = express();
 
-// Connect to MongoDB
 dbConnection();
 
 // Middleware

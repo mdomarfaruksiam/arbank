@@ -6,7 +6,7 @@ import {
   Navigate
 } from "react-router";
 
-import { authContext } from "./context";
+import { authContext } from "./Context";
 import authUser from "./Essentials/authUser";
 
 import Home from "./Pages/Home";
