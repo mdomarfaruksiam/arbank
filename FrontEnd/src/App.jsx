@@ -39,6 +39,12 @@ export default function App() {
                 {
                   path: '/sign-out',
                   element: <SignOut />
+                },
+                {
+                  path: '/forgot-password',
+                  element: <h1>forgot password</h1>
+                },
+                {
                 }
               ]
             },

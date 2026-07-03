@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router";
 import axios from 'axios';
 import { toast } from "react-toastify";
 
@@ -95,7 +96,7 @@ export default function SignIn() {
                     err={err.password}
                 />
                 <div className="space-y-3 capitalize">
-                    <span className=" block text-sm text-primary underline">Forget username or password?</span>
+                    <Link className='block text-sm text-primary underline' to="/forgot-password">Forget username or password?</Link>
 
                     <Button
                         type="submit"
