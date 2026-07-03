@@ -9,6 +9,7 @@ const dbConnection = require("./database/dbConnection");
 const signUp = require("./routes/sign-up");
 const signIn = require("./routes/sign-in");
 const signOut = require("./routes/sign-out");
+const forgetPassword = require("./routes/forget-password");
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.get("/", (req, res) => {
 app.use("/", signUp);
 app.use("/", signIn);
 app.use("/", signOut);
+app.use('/', forgetPassword)
 
 // Start Server
 const PORT = process.env.PORT || 5000;
