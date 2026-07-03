@@ -23,7 +23,9 @@ export default function Home() {
                 </div>
 
                 {/* Form */}
-                {openSignInForm ? <SignIn /> : <SignUp />}
+                {openSignInForm
+                    ? <SignIn />
+                    : <SignUp setOpenSignInForm={setOpenSignInForm} />}
 
                 {/* Footer */}
                 <div className="mt-6 text-center">

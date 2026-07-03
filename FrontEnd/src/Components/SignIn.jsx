@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
+import { toast } from "react-toastify";
 
 import Input from "../Utils/Input";
 import Button from "../Utils/Button";
@@ -29,9 +30,10 @@ export default function SignIn() {
                 { withCredentials: true, }
             )
             console.log(response.data)
-            alert(response.data.message)
+            toast.success(response.data.message)
         } catch (error) {
             console.error('Error signing in:', error.response)
+            toast.error(error.response.data.message)
         } finally {
             setLoading(false)
         }

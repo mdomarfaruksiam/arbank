@@ -24,20 +24,8 @@ signIn.post("/sign-in", async (req, res) => {
             ]
         });
 
-        if (!user) {
+        if (!user || await !bcrypt.compare(password, user.password)) {
             return res.status(404).json({
-                success: false,
-                message: "Invalid credentials.",
-            });
-        }
-
-        const passwordMatched = await bcrypt.compare(
-            password,
-            user.password
-        );
-
-        if (!passwordMatched) {
-            return res.status(401).json({
                 success: false,
                 message: "Invalid credentials.",
             });

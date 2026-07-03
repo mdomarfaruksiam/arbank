@@ -23,7 +23,7 @@ app.use(
     cors({
         origin: [
             "http://localhost:5173",
-            "http://192.168.0.104:5173",
+            "http://192.168.0.101:5173",
             'https://arbank.netlify.app',
         ],
         credentials: true,
@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
     });
 });
 
-// Routes
+// sign in related routes
 app.use("/", signUp);
 app.use("/", signIn);
 app.use("/", signOut);
