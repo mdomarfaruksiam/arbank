@@ -4,9 +4,11 @@ import axios from "axios";
 import Input from "../Utils/Input";
 import Button from "../Utils/Button";
 import links from "../Essentials/links";
+import Loading from "./Loading";
 
 export default function SignUp() {
     const [step, setStep] = useState(1);
+    const [loading, setLoading] = useState(false);
 
     const [credentials, setCredentials] = useState({
         fullName: "",
@@ -71,6 +73,7 @@ export default function SignUp() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         const errors = {};
 
@@ -107,11 +110,13 @@ export default function SignUp() {
         } catch (error) {
             console.log(error.response?.data);
             alert(error.response?.data?.message || "An error occurred during registration.");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <>{loading ? <Loading /> : <form onSubmit={handleSubmit} className="space-y-6">
 
             {/* Progress */}
             <div className="flex gap-2">
@@ -216,6 +221,6 @@ export default function SignUp() {
                     </div>
                 </>
             )}
-        </form>
+        </form>}</>
     );
 }
