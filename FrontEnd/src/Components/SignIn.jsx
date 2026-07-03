@@ -96,7 +96,7 @@ export default function SignIn() {
                     err={err.password}
                 />
                 <div className="space-y-3 capitalize">
-                    <Link className='block text-sm text-primary underline' to="/forgot-password">Forget username or password?</Link>
+                    <Link className='block text-sm text-primary underline' to="/forget-password">Forget username or password?</Link>
 
                     <Button
                         type="submit"

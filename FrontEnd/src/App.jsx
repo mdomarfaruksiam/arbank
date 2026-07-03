@@ -16,6 +16,7 @@ import Home from "./Pages/Home";
 import PublicLayout from "./Layout/PublicLayout";
 import PrivateLayout from "./Layout/PrivateLayout";
 import SignOut from "./Essentials/signOut";
+import ForgetPassword from "./Components/ForgetPassword";
 
 
 export default function App() {
@@ -41,8 +42,8 @@ export default function App() {
                   element: <SignOut />
                 },
                 {
-                  path: '/forgot-password',
-                  element: <h1>forgot password</h1>
+                  path: '/forget-password',
+                  element: <ForgetPassword />
                 },
                 {
                 }
