@@ -16,7 +16,6 @@ signIn.post("/sign-in", async (req, res) => {
             });
         }
 
-        // username using email or username
         const user = await User.findOne({
             $or: [
                 { email: username },
@@ -24,7 +23,16 @@ signIn.post("/sign-in", async (req, res) => {
             ]
         });
 
-        if (!user || await !bcrypt.compare(password, user.password)) {
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "Invalid credentials.",
+            });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
             return res.status(404).json({
                 success: false,
                 message: "Invalid credentials.",
