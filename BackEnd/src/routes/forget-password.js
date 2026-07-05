@@ -36,7 +36,7 @@ forgetPassword.post("/forget-password", async (req, res) => {
                 });
                 await otpEntry.save();
 
-                console.log("Forgot password requested for:", email);
+                console.log("Forgot password requested for:", user.email);
 
                 try {
                     await sendEmail({
