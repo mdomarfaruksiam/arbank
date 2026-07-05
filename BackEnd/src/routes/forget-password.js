@@ -36,11 +36,19 @@ forgetPassword.post("/forget-password", async (req, res) => {
                 });
                 await otpEntry.save();
 
-                await sendEmail({
-                    to: user.email,
-                    subject: "Password Reset OTP",
-                    text: `Your OTP for password reset is: ${otpCode}. It will expire in 5 minutes.`,
-                });
+                console.log("Forgot password requested for:", email);
+
+                try {
+                    await sendEmail({
+                        to: email,
+                        subject: "Reset Password",
+                        html,
+                    });
+
+                    console.log("Email sent successfully");
+                } catch (err) {
+                    console.error("Email sending failed:", err);
+                }
 
                 return res.status(200).json({
                     success: 2,
