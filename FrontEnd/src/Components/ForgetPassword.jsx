@@ -53,7 +53,7 @@ export default function ForgetPassword() {
                     toast.success(response.data.message)
                 } catch (error) {
                     console.log(error)
-                    toast.error(error?.response?.data.message || error.message || "Somthing happend wrong")
+                    toast.error(error?.response?.data.message || "Somthing happend wrong")
                 }
             }
 

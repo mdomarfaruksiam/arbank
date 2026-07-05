@@ -26,7 +26,7 @@ app.use(
             "http://localhost:5173",
             "http://192.168.0.101:5173",
             'https://arbank.netlify.app',
-            'https://arbank.netlify.app',
+            'https://arbank2.netlify.app',
         ],
         credentials: true,
     })
