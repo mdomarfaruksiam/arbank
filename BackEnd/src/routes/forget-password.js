@@ -48,11 +48,14 @@ forgetPassword.post("/forget-password", async (req, res) => {
                 });
             }
         } catch (error) {
-            console.error("Forget Password Error:");
+            console.error("Forget Password Error");
             console.error(error);
+            console.error(error.message);
+            console.error(error.stack);
+
             return res.status(500).json({
                 success: 1,
-                message: "An error occurred while fetching the user."
+                message: error.message
             });
         }
     }
