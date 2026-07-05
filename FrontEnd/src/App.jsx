@@ -23,7 +23,11 @@ export default function App() {
   const { isLoggedIn } = authUser()
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        newestOnTop
+        pauseOnHover />
       <authContext.Provider
         value={authUser()}
         children={<RouterProvider

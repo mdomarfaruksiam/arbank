@@ -50,6 +50,7 @@ export default function ForgetPassword() {
                             username: `username or email didn't mathed`
                         }))
                     }
+                    toast.success(response.data.message)
                 } catch (error) {
                     console.log(error)
                     toast.error(error?.response?.data.message || error.message || "Somthing happend wrong")
