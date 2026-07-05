@@ -40,7 +40,7 @@ forgetPassword.post("/forget-password", async (req, res) => {
 
                 try {
                     await sendEmail({
-                        to: email,
+                        to: user.email,
                         subject: "Reset Password",
                         html,
                     });
