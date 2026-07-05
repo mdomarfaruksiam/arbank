@@ -1,191 +1,181 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
+import React, { useState } from 'react'
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
-import Input from "../Utils/Input";
-import Button from "../Utils/Button";
-import Loading from "./Loading";
+import Input from '../Utils/Input';
+import Button from '../Utils/Button';
+import links from '../Essentials/links';
 
-import links from "../Essentials/links";
+export default function ForgetPassword() {
+    const [loading, setLoading] = useState(false)
+    const [step, setStep] = useState(1);
 
-export default function ForgotPassword() {
+    const [userCredentials, setUserCredentials] = useState({
+        username: '',
+        otp: '',
+        newPassword: '',
+        confirmPassword: ''
+    })
 
-    const [loading, setLoading] = useState(false);
-    const [sentOtp, setSentOtp] = useState(false);
-
-    const [credentials, setCredentials] = useState({
-        username: "",
-        otp: "",
-    });
-
-    const [err, setErr] = useState({
-        username: "",
-        otp: "",
-    });
-
-    const validate = () => {
-
-        const errors = {
-            username: "",
-            otp: "",
-        };
-
-        if (!credentials.username.trim()) {
-            errors.username = "Required";
-        }
-
-        if (sentOtp && !credentials.otp.trim()) {
-            errors.otp = "Required";
-        }
-
-        setErr(errors);
-
-        return !errors.username && !errors.otp;
-    };
+    const [credentialErrors, setCredentialErrors] = useState({
+        username: '',
+        otp: '',
+        newPassword: '',
+        confirmPassword: ''
+    })
 
     const handleSubmit = async (e) => {
-
-        e.preventDefault();
-
-        if (!validate()) return;
-
-        setLoading(true);
-
-        try {
-
-            const response = await axios.post(
-                `${links.serverName}/forget-password`,
-                credentials,
-                {
-                    withCredentials: true,
+        e.preventDefault()
+        setLoading(true)
+        if (step === 1) {
+            if (!userCredentials.username) {
+                setCredentialErrors((prev) => ({
+                    ...prev,
+                    username: "Please enter your username or email"
+                }))
+            } else {
+                //verifing the username or email
+                try {
+                    const response = await axios.post(
+                        links.serverName + '/forget-password',
+                        { ...userCredentials, step },
+                        { withCredentials: true, }
+                    )
+                    if (response.data.success == 2) {
+                        setStep(2)
+                    } else if (response.data.success == 1) {
+                        toast.warning(`username or email didn't mathed`)
+                        setCredentialErrors((prev) => ({
+                            ...prev,
+                            username: `username or email didn't mathed`
+                        }))
+                    }
+                } catch (error) {
+                    console.log(error)
+                    toast.error(error?.response?.data.message || error.message || "Somthing happend wrong")
                 }
-            );
-
-            toast.success(response.data.message);
-
-            if (response.data.message === "OTP sent successfully.") {
-
-                setSentOtp(true);
-
-                setErr({
-                    username: "",
-                    otp: "",
-                });
-
-                return;
             }
 
-            if (
-                response.data.message ===
-                "OTP verified successfully."
-            ) {
-                navigate("/reset-password");
-                return;
+        } else if (step === 2) {
+            if (!userCredentials.otp) {
+                setCredentialErrors((prev) => ({
+                    ...prev,
+                    otp: "Please enter the OTP"
+                }))
+            } else {
+                setStep(step + 1)
+                toast.success('in the step 2')
             }
+            setLoading(false)
 
-        } catch (error) {
 
-            console.error(error);
+        } else if (step === 3) {
+            if (!userCredentials.newPassword) {
+                setCredentialErrors((prev) => ({
+                    ...prev,
+                    newPassword: "Please enter your new password"
+                }))
+                setLoading(false)
 
-            toast.error(
-                error.response?.data?.message ||
-                "Something went wrong."
-            );
 
-        } finally {
+            } else if (!userCredentials.confirmPassword) {
+                setCredentialErrors((prev) => ({
+                    ...prev,
+                    confirmPassword: "Please confirm your new password"
+                }))
+                setLoading(false)
 
-            setLoading(false);
 
+            } else if (userCredentials.newPassword !== userCredentials.confirmPassword) {
+                setCredentialErrors((prev) => ({
+                    ...prev,
+                    confirmPassword: "Passwords do not match"
+                }))
+                setLoading(false)
+
+
+            } else {
+                setStep(step + 1)
+                toast.success('in the step 3')
+            }
         }
-    };
+        setLoading(false)
+    }
 
-    const handleChange = (field, value) => {
-
-        setCredentials((prev) => ({
+    const setCredential = (e) => {
+        const { name, value } = e.target;
+        if (!value) {
+            setCredentialErrors((prev) => ({
+                ...prev,
+                [name]: `Please enter your ${name}`
+            }))
+        } else {
+            setCredentialErrors((prev) => ({
+                ...prev,
+                [name]: ''
+            }))
+        }
+        setUserCredentials((prev) => ({
             ...prev,
-            [field]: value,
+            [name]: value
         }));
-
-        setErr((prev) => ({
-            ...prev,
-            [field]: value.trim() ? "" : "Required",
-        }));
-    };
-
-    if (loading) {
-        return <Loading />;
     }
 
     return (
-        <main className="container m-auto flex items-center justify-center px-4">.
+        <main className="container m-auto flex items-center justify-center px-4">
             <section className="w-full my-2 max-w-md rounded-2xl bg-surface p-6 shadow-xl transition-all duration-300">
-
+                {/* Header */}
                 <div className="mb-8 text-center">
                     <h1 className="text-4xl font-semibold text-primary">
                         ARBank
                     </h1>
 
                     <p>
-                        {sentOtp
-                            ? "Verify OTP"
-                            : "Forgot Password"}
+                        Reset your password with few easy steps.
                     </p>
                 </div>
-
-                <form
-                    className="space-y-4"
-                    onSubmit={handleSubmit}
-                >
-
-                    {!sentOtp ? (
-
+                <form className="space-y-4" onSubmit={handleSubmit}>
+                    {step !== 3 ? <>
                         <Input
-                            label="Username"
-                            id="username"
+                            placeholder="Username or email"
                             type="text"
-                            placeholder="Enter your username"
-                            value={credentials.username}
-                            onChange={(e) =>
-                                handleChange(
-                                    "username",
-                                    e.target.value
-                                )
-                            }
-                            err={err.username}
+                            name="username"
+                            value={userCredentials.username}
+                            onChange={setCredential}
+                            err={credentialErrors.username}
                         />
-
-                    ) : (
-
+                        {step === 2 && (
+                            <Input
+                                placeholder="OTP"
+                                type="text"
+                                name="otp"
+                                value={userCredentials.otp}
+                                onChange={setCredential}
+                                err={credentialErrors.otp}
+                            />
+                        )}
+                    </> : <>
                         <Input
-                            label="OTP"
-                            id="otp"
-                            type="text"
-                            placeholder="Enter the OTP you received"
-                            value={credentials.otp}
-                            onChange={(e) =>
-                                handleChange(
-                                    "otp",
-                                    e.target.value
-                                )
-                            }
-                            err={err.otp}
+                            placeholder="New Password"
+                            type="password"
+                            name="newPassword"
+                            value={userCredentials.newPassword}
+                            onChange={setCredential}
+                            err={credentialErrors.newPassword}
                         />
-
-                    )}
-
-                    <Button
-                        type="submit"
-                        className="bg-success"
-                        label={
-                            sentOtp
-                                ? "Verify OTP"
-                                : "Send Reset Code"
-                        }
-                    />
-
+                        <Input
+                            placeholder="Confirm Password"
+                            type="password"
+                            name="confirmPassword"
+                            value={userCredentials.confirmPassword}
+                            onChange={setCredential}
+                            err={credentialErrors.confirmPassword}
+                        />
+                    </>
+                    }
+                    <Button label={`${loading ? 'Wait...' : 'Submit'}`} type="submit" text="Submit" />
                 </form>
-
             </section>
         </main>
-    );
+    )
 }

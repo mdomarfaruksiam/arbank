@@ -8,125 +8,53 @@ const sendEmail = require("../essentials/mails/send-mail");
 const forgetPassword = express.Router();
 
 forgetPassword.post("/forget-password", async (req, res) => {
-    try {
-
-        const { username, otp } = req.body;
-
-        if (!username) {
-            return res.status(400).json({
-                success: false,
-                message: "Username is required.",
-            });
-        }
-
-
-        if (otp) {
-
-            const userOtp = await PasswordResetOTP.findOne({ username });
-
-            if (!userOtp) {
-                return res.status(400).json({
-                    success: false,
-                    message: "OTP not found or expired.",
-                });
-            }
-
-            if (userOtp.expiresAt < new Date()) {
-
-                await PasswordResetOTP.deleteOne({
-                    _id: userOtp._id,
-                });
-
-                return res.status(400).json({
-                    success: false,
-                    message: "OTP has expired.",
-                });
-            }
-
-            const isMatch = await bcrypt.compare(
-                otp,
-                userOtp.otpHash
-            );
-
-            if (!isMatch) {
-                return res.status(400).json({
-                    success: false,
-                    message: "Invalid OTP.",
-                });
-            }
-
-            // OTP should never be reused
-            await PasswordResetOTP.deleteOne({
-                _id: userOtp._id,
-            });
-
-            return res.status(200).json({
-                success: true,
-                message: "OTP verified successfully.",
-            });
-
-        }
-
-        const user = await User.findOne({ username });
-
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: "User not found.",
-            });
-        }
-
-        const otpToSend = Math.floor(
-            100000 + Math.random() * 900000
-        ).toString();
-
-        const otpHash = await bcrypt.hash(
-            otpToSend,
-            10
-        );
-
-        await PasswordResetOTP.deleteMany({
-            username,
-        });
-
-        const otpDocument = await PasswordResetOTP.create({
-            userId: user._id,
-            username,
-            otpHash,
-            expiresAt: new Date(Date.now() + 5 * 60 * 1000),
-        });
-
+    const { username, otp, newPassword, confirmPassword, step } = req.body;
+    if (username && step == 1) {
         try {
-
-            await sendEmail({
-                to: user.email,
-                subject: "ArBank Password Reset OTP",
-                text: `Your OTP is ${otpToSend}. It expires in 5 minutes.`,
+            const user = await User.findOne({
+                $or: [
+                    { username },
+                    { email: username }]
             });
+            if (!user) {
+                return res.status(404).json({
+                    success: 1,
+                    message: "User not found."
+                });
+            } else {
+                const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-        } catch (emailError) {
+                const otpEntry = new PasswordResetOTP({
+                    userId: user._id,
+                    username: user.username,
+                    otpHash: otpCode,
+                    expiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes
+                });
 
-            await PasswordResetOTP.deleteOne({
-                _id: otpDocument._id,
+                await PasswordResetOTP.deleteMany({
+                    username: user.username,
+                });
+                await otpEntry.save();
+
+                await sendEmail({
+                    to: user.email,
+                    subject: "Password Reset OTP",
+                    text: `Your OTP for password reset is: ${otpCode}. It will expire in 5 minutes.`,
+                });
+
+                return res.status(200).json({
+                    success: 2,
+                    message: "OTP sent successfully."
+                });
+            }
+        } catch (error) {
+            console.error("Forget Password Error:");
+            console.error(error);
+            return res.status(500).json({
+                success: 1,
+                message: "An error occurred while fetching the user."
             });
-
-            throw emailError;
         }
-
-        return res.status(200).json({
-            success: true,
-            message: "OTP sent successfully.",
-        });
-
-    } catch (err) {
-
-        console.error(err);
-
-        return res.status(500).json({
-            success: false,
-            message: "Internal server error.",
-        });
-
     }
 });
 
