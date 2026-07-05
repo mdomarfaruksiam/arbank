@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const User = require("../database/models/User");
 const PasswordResetOTP = require("../database/models/PasswordResetOtp");
 const sendEmail = require("../essentials/mails/send-mail");
+const passwordResetOtpTamplate = require("../essentials/mails/tamplets/passwordResetOtpTemplate");
 
 const forgetPassword = express.Router();
 
@@ -39,7 +40,7 @@ forgetPassword.post("/forget-password", async (req, res) => {
                 await sendEmail({
                     to: user.email,
                     subject: "Password Reset OTP",
-                    text: `Your OTP for password reset is: ${otpCode}. It will expire in 5 minutes.`,
+                    text: passwordResetOtpTamplate,
                 });
 
                 return res.status(200).json({
