@@ -46,10 +46,12 @@ forgetPassword.post("/forget-password", async (req, res) => {
                     });
 
                     console.log("Email sent successfully");
-                } catch (err) {
-                    console.error("Email sending failed:", err);
+                } catch (error) {
+                    console.error(error);
+                    console.error(error.response);
+                    console.error(error.code);
+                    console.error(error.command);
                 }
-
                 return res.status(200).json({
                     success: 2,
                     message: "OTP sent successfully to your email."
@@ -60,7 +62,8 @@ forgetPassword.post("/forget-password", async (req, res) => {
             console.error(error);
             console.error(error.message);
             console.error(error.stack);
-
+            console.log("EMAIL:", process.env.EMAIL);
+            console.log("PASSWORD:", process.env.EMAIL_PASSWORD ? "Exists" : "Missing");
             return res.status(500).json({
                 success: 1,
                 message: error.message
