@@ -10,7 +10,7 @@ export default function Input({
     ...props
 }) {
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-full">
             {label &&
                 <label
                     htmlFor={id}
@@ -24,7 +24,7 @@ export default function Input({
                     type={type}
                     {...props}
                     placeholder={placeholder}
-                    className={`border border-border rounded-lg px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm sm:text-[16px] ${className}`}
+                    className={`border border-border rounded-lg px-4 py-3 outline-none text-sm sm:text-[16px] ${className}`}
                 />
                 {err &&
                     <span

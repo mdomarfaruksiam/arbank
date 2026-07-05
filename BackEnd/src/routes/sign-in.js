@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const User = require("../database/models/User");
 
@@ -12,7 +13,7 @@ signIn.post("/sign-in", async (req, res) => {
         if (!username || !password) {
             return res.status(400).json({
                 success: false,
-                message: "username and password are required.",
+                message: "Username and password are required.",
             });
         }
 
@@ -24,7 +25,7 @@ signIn.post("/sign-in", async (req, res) => {
         });
 
         if (!user) {
-            return res.status(404).json({
+            return res.status(401).json({
                 success: false,
                 message: "Invalid credentials.",
             });
@@ -33,17 +34,39 @@ signIn.post("/sign-in", async (req, res) => {
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            return res.status(404).json({
+            return res.status(401).json({
                 success: false,
                 message: "Invalid credentials.",
             });
         }
 
+        // Create JWT
+        const token = jwt.sign(
+            {
+                id: user._id,
+                fullName: user.fullName,
+                username: user.username,
+                email: user.email,
+                phone: user.phone,
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "7d",
+            }
+        );
+
+        // Save token in cookie
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        });
+
         res.status(200).json({
             success: true,
             message: "Sign in successful.",
             user: {
-                id: user._id,
                 fullName: user.fullName,
                 username: user.username,
                 email: user.email,
@@ -56,7 +79,7 @@ signIn.post("/sign-in", async (req, res) => {
 
         res.status(500).json({
             success: false,
-            message: "Internal server error.",
+            message: error.message,
         });
     }
 });

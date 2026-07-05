@@ -10,7 +10,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { authContext } from "./Context";
-import authUser from "./Essentials/authUser";
 
 import Home from "./Pages/Home";
 import PublicLayout from "./Layout/PublicLayout";
@@ -20,7 +19,10 @@ import ForgetPassword from "./Components/ForgetPassword";
 
 
 export default function App() {
-  const { isLoggedIn } = authUser()
+  const [userCredentials, setUserCredentials] = useState({
+    isLoggedIn: false,
+    user: null
+  })
   return (
     <>
       <ToastContainer
@@ -29,17 +31,17 @@ export default function App() {
         newestOnTop
         pauseOnHover />
       <authContext.Provider
-        value={authUser()}
+        value={{ userCredentials, setUserCredentials }}
         children={<RouterProvider
           router={createBrowserRouter([
             {
               path: "/",
               element:
-                isLoggedIn ? <PrivateLayout /> : <PublicLayout />,
+                userCredentials.isLoggedIn ? <PrivateLayout /> : <PublicLayout />,
               children: [
                 {
                   index: true,
-                  element: isLoggedIn ? <>loggedIn</> : <Home />
+                  element: userCredentials.isLoggedIn ? <>loggedIn</> : <Home />
                 },
                 {
                   path: '/sign-out',

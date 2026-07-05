@@ -3,13 +3,18 @@ import { Link } from "react-router";
 import axios from 'axios';
 import { toast } from "react-toastify";
 
+
+import { authContext } from "../Context";
 import Input from "../Utils/Input";
 import Button from "../Utils/Button";
 import Loading from "./Loading";
 
 import links from "../Essentials/links";
+import { useContext } from "react";
 
 export default function SignIn() {
+
+    const { setUserCredentials } = useContext(authContext);
 
     const [loading, setLoading] = useState(false)
 
@@ -30,8 +35,11 @@ export default function SignIn() {
                 signInCredentials,
                 { withCredentials: true, }
             )
-            console.log(response.data)
             toast.success(response.data.message)
+            setUserCredentials({
+                isLoggedIn: true,
+                user: response.data.user
+            })
         } catch (error) {
             console.error('Error signing in:', error.response)
             toast.error(error.response.data.message)

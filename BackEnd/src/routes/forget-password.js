@@ -8,67 +8,150 @@ const sendEmail = require("../essentials/mails/send-mail");
 const forgetPassword = express.Router();
 
 forgetPassword.post("/forget-password", async (req, res) => {
-    const { username, otp, newPassword, confirmPassword, step } = req.body;
-    if (username && step == 1) {
-        try {
+    try {
+        const { username, otp, newPassword, confirmPassword, step } = req.body;
+
+        if (step == 1) {
             const user = await User.findOne({
                 $or: [
                     { username },
-                    { email: username }]
+                    { email: username }
+                ]
             });
+
             if (!user) {
                 return res.status(404).json({
                     success: 1,
                     message: "User not found."
                 });
-            } else {
-                const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-
-                const otpEntry = new PasswordResetOTP({
-                    userId: user._id,
-                    username: user.username,
-                    otpHash: otpCode,
-                    expiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes
-                });
-
-                await PasswordResetOTP.deleteMany({
-                    username: user.username,
-                });
-                await otpEntry.save();
-
-                console.log("Forgot password requested for:", user.email);
-
-                try {
-                    await sendEmail({
-                        to: user.email,
-                        subject: "Reset Password",
-                        html,
-                    });
-
-                    console.log("Email sent successfully");
-                } catch (error) {
-                    console.error(error);
-                    console.error(error.response);
-                    console.error(error.code);
-                    console.error(error.command);
-                }
-                return res.status(200).json({
-                    success: 2,
-                    message: "OTP sent successfully to your email."
-                });
             }
-        } catch (error) {
-            console.error("Forget Password Error");
-            console.error(error);
-            console.error(error.message);
-            console.error(error.stack);
-            console.log("EMAIL:", process.env.EMAIL);
-            console.log("PASSWORD:", process.env.EMAIL_PASSWORD ? "Exists" : "Missing");
-            return res.status(500).json({
-                success: 1,
-                message: error.message
+
+            const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+            const otpHash = await bcrypt.hash(otpCode, 10);
+
+            await PasswordResetOTP.deleteMany({
+                userId: user._id
+            });
+
+            await PasswordResetOTP.create({
+                userId: user._id,
+                username: user.username,
+                email: user.email,
+                otpHash,
+                expiresAt: new Date(Date.now() + 5 * 60 * 1000)
+            });
+
+            await sendEmail({
+                to: user.email,
+                subject: "Reset Password",
+                html: `
+                    <h2>Password Reset</h2>
+                    <p>Your OTP is:</p>
+                    <h1>${otpCode}</h1>
+                    <p>This OTP will expire in 5 minutes.</p>
+                `
+            });
+
+            return res.status(200).json({
+                success: 2,
+                message: "OTP sent successfully."
             });
         }
+        if (step == 2) {
+            const otpRecord = await PasswordResetOTP.findOne({
+                $or: [
+                    { username },
+                    { email: username }
+                ]
+            });
+
+            if (!otpRecord) {
+                return res.status(404).json({
+                    success: 2,
+                    message: "OTP not found."
+                });
+            }
+
+            if (otpRecord.expiresAt < new Date()) {
+                await PasswordResetOTP.deleteOne({
+                    _id: otpRecord._id
+                });
+
+                return res.status(400).json({
+                    success: 2,
+                    message: "OTP has expired."
+                });
+            }
+
+            const validOTP = await bcrypt.compare(
+                otp,
+                otpRecord.otpHash
+            );
+
+            if (!validOTP) {
+                return res.status(400).json({
+                    success: 2,
+                    message: "Invalid OTP."
+                });
+            }
+
+            return res.status(200).json({
+                success: 3,
+                message: "OTP verified successfully."
+            });
+        }
+        if (step == 3) {
+
+            if (newPassword !== confirmPassword) {
+                return res.status(400).json({
+                    success: 1,
+                    message: "Passwords do not match."
+                });
+            }
+
+            const user = await User.findOne({
+                $or: [
+                    { username },
+                    { email: username }
+                ]
+            });
+
+            if (!user) {
+                return res.status(404).json({
+                    success: 1,
+                    message: "User not found."
+                });
+            }
+
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+            user.password = hashedPassword;
+
+            await user.save();
+
+            await PasswordResetOTP.deleteMany({
+                userId: user._id
+            });
+
+            return res.status(200).json({
+                success: 4,
+                message: "Password changed successfully."
+            });
+        }
+
+        return res.status(400).json({
+            success: 1,
+            message: "Invalid step."
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            success: 1,
+            message: error.message
+        });
     }
 });
 
