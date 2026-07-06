@@ -21,12 +21,12 @@ export default function BalanceCard({ accountStatus, isLoading }) {
                     <div className='p-2 py-5 text-center flex flex-col gap-2'>
                         <span className='text-md m-auto text-muted font-medium'>Available balance</span>
                         <span className='font-semibold text-success text-lg'>
-                            {accountStatus.balance} <span className='text-xs'>BDT</span>
+                            {accountStatus.balance ? accountStatus.balance : '--'} <span className='text-xs'>BDT</span>
                         </span>
                     </div>
 
                     {accountStatus.lastPaymentHistory &&
-                        <div className='pt-4 px-2 py-2 text-sm text-muted font-medium flex justify-between flex-wrap'>
+                        <div className='pt-4 px-2 py-2 text-sm text-muted font-medium flex justify-between flex-wrap gap-2'>
                             <span>
                                 last payment:
                                 {accountStatus.lastPaymentHistory.lastPayment} <span className='text-[8px]'>BDT</span>

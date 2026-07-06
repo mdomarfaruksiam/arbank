@@ -9,7 +9,7 @@ import { Outlet } from 'react-router'
 export default function PrivateLayout() {
     const { userCredentials } = useContext(authContext)
     return (
-        <div className='min-h-dvh flex flex-col justify-between'>
+        <div className='relative min-h-dvh flex flex-col justify-between'>
             <Nav />
             <div className='container mx-auto '>
                 <Outlet />

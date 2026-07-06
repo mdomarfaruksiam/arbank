@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import BalanceCard from './BalanceCard'
+import MiniStatement from './MiniStatement'
 
 export default function Dashboard() {
 
@@ -16,8 +17,8 @@ export default function Dashboard() {
         balance: '5000',
         lastPaymentHistory: {
             lastPayment: '100',
-            lastPaymentDate: '10/02/2025',
-            lastPaymentBy: 'Mokhlesur rahman'
+            lastPaymentDate: '10-02-2025',
+            lastPaymentBy: 'Mokhlesur'
         }
     })
 
@@ -27,38 +28,33 @@ export default function Dashboard() {
         if (item === options[0]) {
             setAccountStatus({
                 account: 'current savings account',
-                accountNumber: '125869',
+                accountNumber: 'Rahela begum',
                 active: true,
                 balance: '5000',
                 lastPaymentHistory: {
                     lastPayment: '100',
-                    lastPaymentDate: '10/02/2025',
+                    lastPaymentDate: '10-02-2025',
                     lastPaymentBy: 'Mokhlesur rahman'
                 }
             })
         } else if (item === options[1]) {
             setAccountStatus({
                 account: 'FDR/DPS account',
-                accountNumber: '125869',
+                accountNumber: 'Rahela begum',
                 active: true,
-                balance: '5000',
+                balance: '1000',
                 lastPaymentHistory: {
                     lastPayment: '100',
-                    lastPaymentDate: '10/02/2025',
+                    lastPaymentDate: '01-01-2026',
                     lastPaymentBy: 'Mokhlesur rahman'
                 }
             })
         } else if (item === options[2]) {
             setAccountStatus({
                 account: 'Loan account',
-                accountNumber: '125869',
-                active: true,
-                balance: '5000',
-                lastPaymentHistory: {
-                    lastPayment: '100',
-                    lastPaymentDate: '10/02/2025',
-                    lastPaymentBy: 'Mokhlesur rahman'
-                }
+                accountNumber: 'Rahela begum',
+                active: false,
+                balance: '',
             })
         }
         setLoading(false)
@@ -82,6 +78,21 @@ export default function Dashboard() {
                 </ul>
             </div>
             <BalanceCard accountStatus={accountStatus} isLoading={isLoading} />
+            <div className='bg-border mt-4 rounded-md capitalize overflow-hidden'>
+                <h1 className='font-semibold p-2'>
+                    Mini Statement: <span className='text-accent font-bold'>SAVINGS</span>
+                </h1>
+
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-2 p-2 w-full'>
+                    <MiniStatement />
+                    <MiniStatement />
+                    <MiniStatement />
+                    <MiniStatement />
+                    <MiniStatement />
+                    <MiniStatement />
+                    <MiniStatement />
+                </div>
+            </div>
         </main>
     )
 }

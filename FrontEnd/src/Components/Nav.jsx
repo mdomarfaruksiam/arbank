@@ -46,7 +46,7 @@ export default function Nav() {
 
                             <Input
                                 type='search'
-                                placeholder='Search clients...'
+                                placeholder='Search transection...'
                                 className='border-0  bg-transparent  focus:ring-0 '
                             />
                         </div>
