@@ -48,6 +48,7 @@ signIn.post('/sign-in', async (req, res) => {
                 username: user.username,
                 email: user.email,
                 phone: user.phone,
+                createdAt: user.createdAt
             },
             process.env.JWT_SECRET,
             {

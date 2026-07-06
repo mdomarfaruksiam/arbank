@@ -14,7 +14,14 @@ const authToken = async (req, res, next) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        const user = await User.findById(decoded.id).select("-password");
+        const user = await User.findOne({
+            _id: decoded.id,
+            fullName: decoded.fullName,
+            username: decoded.username,
+            email: decoded.email,
+            phone: decoded.phone,
+            createdAt: decoded.createdAt
+        }).select("-password");
 
         if (!user) {
             return res.status(401).json({

@@ -111,12 +111,13 @@ export default function Nav() {
                                     </li>
 
                                     <li>
-                                        <button
+                                        <Link
+                                            to='/sign-out'
                                             className='w-full flex items-center gap-3 p-3 text-success hover:bg-success/10 transition text-left'
                                         >
                                             <FiLogOut className='text-lg' />
                                             Sign Out
-                                        </button>
+                                        </Link>
                                     </li>
                                 </ul>
                             </div>}

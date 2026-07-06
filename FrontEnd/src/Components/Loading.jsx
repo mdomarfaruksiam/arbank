@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function Loading({
-    text = 'Loading...',
+    text = 'Please wait...',
     fullScreen = true,
 }) {
     return (
