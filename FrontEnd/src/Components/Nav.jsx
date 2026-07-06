@@ -4,6 +4,15 @@ import { FiSearch } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { IoClose } from "react-icons/io5";
+import {
+    FiHome,
+    FiCreditCard,
+    FiUsers,
+    FiUser,
+    FiLogOut,
+} from "react-icons/fi";
+
+import { MdOutlinePayments } from "react-icons/md";
 
 import Input from "../Utils/Input";
 import { authContext } from "../Context";
@@ -13,6 +22,7 @@ export default function Nav() {
     const { userCredentials } = useContext(authContext)
 
     const [showSearch, setShowSearch] = useState(false);
+    const [manuOpen, setManuOpen] = useState(false)
 
     return (
         <header className="sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-border shadow-sm">
@@ -61,7 +71,9 @@ export default function Nav() {
                     </button>
 
                     {/* Profile */}
-                    <button className="flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-primary/10 transition">
+                    <button
+                        onClick={() => setManuOpen(!manuOpen)}
+                        className="relative flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-primary/10 transition">
                         <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
                             <CgProfile className="text-3xl text-primary" />
                         </div>
@@ -74,6 +86,40 @@ export default function Nav() {
                                 {userCredentials.user.username}
                             </p>
                         </div>
+
+                        {manuOpen &&
+                            <div className="absolute top-12 right-0">
+                                <ul className="bg-bg min-w-56 shadow-md rounded-md font-medium border border-border overflow-hidden">
+                                    <li className="border-b border-border">
+                                        <Link
+                                            to="/dashboard"
+                                            className="flex items-center gap-3 p-3 hover:bg-primary/10 transition"
+                                        >
+                                            <FiHome className="text-lg text-primary" />
+                                            Dashboard
+                                        </Link>
+                                    </li>
+
+                                    <li className="border-b border-border">
+                                        <Link
+                                            to="/profile"
+                                            className="flex items-center gap-3 p-3 hover:bg-primary/10 transition"
+                                        >
+                                            <FiUser className="text-lg text-primary" />
+                                            Profile
+                                        </Link>
+                                    </li>
+
+                                    <li>
+                                        <button
+                                            className="w-full flex items-center gap-3 p-3 text-success hover:bg-success/10 transition text-left"
+                                        >
+                                            <FiLogOut className="text-lg" />
+                                            Sign Out
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>}
                     </button>
                 </div>
             </nav>

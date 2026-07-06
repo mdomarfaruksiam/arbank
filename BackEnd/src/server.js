@@ -11,6 +11,8 @@ const signIn = require("./routes/sign-in");
 const signOut = require("./routes/sign-out");
 const forgetPassword = require("./routes/forget-password");
 
+const authMe = require("./routes/authMe");
+
 const app = express();
 
 dbConnection();
@@ -45,6 +47,7 @@ app.use("/", signUp);
 app.use("/", signIn);
 app.use("/", signOut);
 app.use('/', forgetPassword)
+app.use('/', authMe)
 
 // Start Server
 const PORT = process.env.PORT || 5000;
