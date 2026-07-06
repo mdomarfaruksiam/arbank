@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react'
 
 export default function Button({
     label,
-    type = "button",
-    className = "",
+    type = 'button',
+    className = '',
     ...props
 }) {
     return (
@@ -14,5 +14,5 @@ export default function Button({
         >
             {label}
         </button>
-    );
+    )
 }

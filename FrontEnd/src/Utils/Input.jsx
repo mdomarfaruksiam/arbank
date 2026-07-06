@@ -1,24 +1,24 @@
-import React from "react";
+import React from 'react'
 
 export default function Input({
     label,
     id,
-    type = "text",
+    type = 'text',
     placeholder,
-    className = "",
+    className = '',
     err,
     ...props
 }) {
     return (
-        <div className="flex flex-col gap-2 w-full">
+        <div className='flex flex-col gap-2 w-full'>
             {label &&
                 <label
                     htmlFor={id}
-                    className="font-medium text-secondary text-sm md:text-[16px]">
+                    className='font-medium text-secondary text-sm md:text-[16px]'>
                     {label}
                 </label>}
 
-            <div className="flex flex-col space-y-0">
+            <div className='flex flex-col space-y-0'>
                 <input
                     id={id}
                     type={type}
@@ -28,10 +28,10 @@ export default function Input({
                 />
                 {err &&
                     <span
-                        className="ml-auto text-xs text-warning">
+                        className='ml-auto text-xs text-warning'>
                         {err}
                     </span>}
             </div>
         </div>
-    );
+    )
 }

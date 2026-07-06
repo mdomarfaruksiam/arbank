@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 const passwordResetOTPSchema = new mongoose.Schema(
     {
         userId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
+            ref: 'User',
             required: true,
         },
 
@@ -35,15 +35,15 @@ const passwordResetOTPSchema = new mongoose.Schema(
     {
         timestamps: true,
     }
-);
+)
 
 // Automatically delete the document after expiresAt
 passwordResetOTPSchema.index(
     { expiresAt: 1 },
     { expireAfterSeconds: 0 }
-);
+)
 
 module.exports = mongoose.model(
-    "PasswordResetOTP",
+    'PasswordResetOTP',
     passwordResetOTPSchema
-);
+)

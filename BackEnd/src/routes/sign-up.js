@@ -1,11 +1,11 @@
-const express = require("express");
-const bcrypt = require("bcrypt");
+const express = require('express')
+const bcrypt = require('bcrypt')
 
-const User = require('../database/models/User');
+const User = require('../database/models/User')
 
-const router = express.Router();
+const router = express.Router()
 
-router.post("/sign-up", async (req, res) => {
+router.post('/sign-up', async (req, res) => {
 
     try {
 
@@ -15,7 +15,7 @@ router.post("/sign-up", async (req, res) => {
             email,
             phone,
             password
-        } = req.body;
+        } = req.body
 
         const existingUser = await User.findOne({
             $or: [
@@ -23,15 +23,15 @@ router.post("/sign-up", async (req, res) => {
                 { email },
                 { phone }
             ]
-        });
+        })
 
         if (existingUser) {
             return res.status(400).json({
-                message: "User already exists."
-            });
+                message: 'User already exists.'
+            })
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10)
 
         const user = new User({
             fullName,
@@ -39,24 +39,24 @@ router.post("/sign-up", async (req, res) => {
             email,
             phone,
             password: hashedPassword,
-        });
+        })
 
-        await user.save();
+        await user.save()
 
         res.status(201).json({
             success: true,
-            message: "Account created successfully.",
-        });
+            message: 'Account created successfully.',
+        })
 
     } catch (error) {
 
         res.status(500).json({
             success: false,
             message: error.message,
-        });
+        })
 
     }
 
-});
+})
 
-module.exports = router;
+module.exports = router

@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { Link } from "react-router";
-import axios from 'axios';
-import { toast } from "react-toastify";
+import React, { useState } from 'react'
+import { Link } from 'react-router'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 
-import { authContext } from "../Context";
-import Input from "../Utils/Input";
-import Button from "../Utils/Button";
-import Loading from "./Loading";
+import { authContext } from '../Context'
+import Input from '../Utils/Input'
+import Button from '../Utils/Button'
+import Loading from './Loading'
 
-import links from "../Essentials/links";
-import { useContext } from "react";
+import links from '../Essentials/links'
+import { useContext } from 'react'
 
 export default function SignIn() {
 
-    const { setUserCredentials } = useContext(authContext);
+    const { setUserCredentials } = useContext(authContext)
 
     const [loading, setLoading] = useState(false)
 
@@ -49,15 +49,15 @@ export default function SignIn() {
     }
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         setLoading(true)
 
         const errors = {
-            username: signInCredentials.username.trim() ? "" : "Required",
-            password: signInCredentials.password.trim() ? "" : "Required",
-        };
+            username: signInCredentials.username.trim() ? '' : 'Required',
+            password: signInCredentials.password.trim() ? '' : 'Required',
+        }
 
-        setErr(errors);
+        setErr(errors)
 
         if (errors.username || errors.password) return
         else
@@ -66,12 +66,12 @@ export default function SignIn() {
 
     return (
         <>
-            {loading ? <Loading /> : <form onSubmit={handleSubmit} className="space-y-5">
+            {loading ? <Loading /> : <form onSubmit={handleSubmit} className='space-y-5'>
                 <Input
-                    label="Username"
-                    id="username"
-                    type="text"
-                    placeholder="Enter your username"
+                    label='Username'
+                    id='username'
+                    type='text'
+                    placeholder='Enter your username'
                     value={signInCredentials.username}
                     onChange={(e) => {
                         setSignInCredentials((prev) => ({
@@ -80,16 +80,16 @@ export default function SignIn() {
                         }))
                         setErr((prev) => ({
                             ...prev,
-                            username: e.target.value.trim() ? "" : "Required",
-                        }));
+                            username: e.target.value.trim() ? '' : 'Required',
+                        }))
                     }}
                     err={err.username}
                 />
                 <Input
-                    label="Password"
-                    id="password"
-                    type="password"
-                    placeholder="Enter your password"
+                    label='Password'
+                    id='password'
+                    type='password'
+                    placeholder='Enter your password'
                     value={signInCredentials.password}
                     onChange={(e) => {
                         setSignInCredentials((prev) => ({
@@ -98,18 +98,18 @@ export default function SignIn() {
                         }))
                         setErr((prev) => ({
                             ...prev,
-                            password: e.target.value.trim() ? "" : "Required",
-                        }));
+                            password: e.target.value.trim() ? '' : 'Required',
+                        }))
                     }}
                     err={err.password}
                 />
-                <div className="space-y-3 capitalize">
-                    <Link className='block text-sm text-primary underline' to="/forget-password">Forget username or password?</Link>
+                <div className='space-y-3 capitalize'>
+                    <Link className='block text-sm text-primary underline' to='/forget-password'>Forget username or password?</Link>
 
                     <Button
-                        type="submit"
-                        label="Sign in"
-                        className="bg-success"
+                        type='submit'
+                        label='Sign in'
+                        className='bg-success'
                     />
                 </div>
             </form>

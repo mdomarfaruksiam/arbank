@@ -1,67 +1,67 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
-} from "react-router";
-import axios from "axios";
+} from 'react-router'
+import axios from 'axios'
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-import { authContext } from "./Context";
+import { authContext } from './Context'
 
-import Home from "./Pages/Home";
-import PublicLayout from "./Layout/PublicLayout";
-import PrivateLayout from "./Layout/PrivateLayout";
-import SignOut from "./Essentials/signOut";
-import ForgetPassword from "./Components/ForgetPassword";
-import Loading from "./Components/Loading";
+import Home from './Pages/Home'
+import PublicLayout from './Layout/PublicLayout'
+import PrivateLayout from './Layout/PrivateLayout'
+import SignOut from './Essentials/signOut'
+import ForgetPassword from './Components/ForgetPassword'
+import Loading from './Components/Loading'
 
-import links from "./Essentials/links";
+import links from './Essentials/links'
 
 export default function App() {
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true)
 
   const [userCredentials, setUserCredentials] = useState({
     isLoggedIn: false,
     user: null,
-  });
+  })
 
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        // Replace "/auth/me" with your actual authentication endpoint
+        // Replace '/auth/me' with your actual authentication endpoint
         const response = await axios.get(
           `${links.serverName}/auth/me`,
           {
             withCredentials: true,
           }
-        );
-
+        )
+        console.log(response.data.message)
         setUserCredentials({
           isLoggedIn: true,
           user: response.data.user,
-        });
+        })
       } catch (error) {
-        console.error(error);
+        console.error(error)
 
         // Don't show a toast if the user is simply not logged in
         if (error.response && error.response.status !== 401) {
-          toast.error(error.response.data.message);
+          toast.error(error.response.data.message)
         }
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    checkLogin();
-  }, []);
+    checkLogin()
+  }, [])
 
   const router = useMemo(
     () =>
       createBrowserRouter([
         {
-          path: "/",
+          path: '/',
           element: userCredentials.isLoggedIn ? (
             <PrivateLayout />
           ) : (
@@ -78,26 +78,28 @@ export default function App() {
               ),
             },
             {
-              path: "forget-password",
-              element: <ForgetPassword />,
+              path: 'forget-password',
+              element: userCredentials.isLoggedIn
+                ? <h1>You are logged in</h1>
+                : <ForgetPassword />,
             },
             {
-              path: "sign-out",
+              path: 'sign-out',
               element: <SignOut />,
             },
           ],
         },
 
         {
-          path: "*",
+          path: '*',
           element: <h1>404 - Page Not Found</h1>,
         },
       ]),
     [userCredentials.isLoggedIn]
-  );
+  )
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading />
   }
 
   return (
@@ -108,7 +110,7 @@ export default function App() {
       }}
     >
       <ToastContainer
-        position="top-right"
+        position='top-right'
         autoClose={3000}
         newestOnTop
         pauseOnHover
@@ -116,5 +118,5 @@ export default function App() {
 
       <RouterProvider router={router} />
     </authContext.Provider>
-  );
+  )
 }

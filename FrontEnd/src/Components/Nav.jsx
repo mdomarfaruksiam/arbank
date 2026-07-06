@@ -1,120 +1,120 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router";
-import { FiSearch } from "react-icons/fi";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { CgProfile } from "react-icons/cg";
-import { IoClose } from "react-icons/io5";
+import React, { useContext, useState } from 'react'
+import { Link } from 'react-router'
+import { FiSearch } from 'react-icons/fi'
+import { IoMdNotificationsOutline } from 'react-icons/io'
+import { CgProfile } from 'react-icons/cg'
+import { IoClose } from 'react-icons/io5'
 import {
     FiHome,
     FiCreditCard,
     FiUsers,
     FiUser,
     FiLogOut,
-} from "react-icons/fi";
+} from 'react-icons/fi'
 
-import { MdOutlinePayments } from "react-icons/md";
+import { MdOutlinePayments } from 'react-icons/md'
 
-import Input from "../Utils/Input";
-import { authContext } from "../Context";
+import Input from '../Utils/Input'
+import { authContext } from '../Context'
 
 export default function Nav() {
 
     const { userCredentials } = useContext(authContext)
 
-    const [showSearch, setShowSearch] = useState(false);
+    const [showSearch, setShowSearch] = useState(false)
     const [manuOpen, setManuOpen] = useState(false)
 
     return (
-        <header className="sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-border shadow-sm">
+        <header className='sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-border shadow-sm'>
             {/* Navbar */}
-            <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
+            <nav className='container mx-auto px-4 h-16 flex items-center justify-between'>
 
                 {/* Logo */}
                 <Link
-                    to="/"
-                    className="text-2xl font-bold text-primary tracking-wide"
+                    to='/'
+                    className='text-2xl font-bold text-primary tracking-wide'
                 >
                     ARBank
                 </Link>
 
 
                 {/* Right Side */}
-                <div className="flex items-center gap-2">
-                    <div className="hidden sm:block w-80">
-                        <div className="flex items-center rounded-lg border border-border bg-background px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition">
-                            <FiSearch className="text-secondary text-lg shrink-0" />
+                <div className='flex items-center gap-2'>
+                    <div className='hidden sm:block w-80'>
+                        <div className='flex items-center rounded-lg border border-border bg-background px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition'>
+                            <FiSearch className='text-secondary text-lg shrink-0' />
 
                             <Input
-                                type="search"
-                                placeholder="Search clients..."
-                                className="border-0  bg-transparent  focus:ring-0 "
+                                type='search'
+                                placeholder='Search clients...'
+                                className='border-0  bg-transparent  focus:ring-0 '
                             />
                         </div>
                     </div>
                     {/* Mobile Search Toggle */}
                     <button
                         onClick={() => setShowSearch(!showSearch)}
-                        className="sm:hidden h-10 w-10 rounded-full hover:bg-primary/10 transition flex items-center justify-center"
+                        className='sm:hidden h-10 w-10 rounded-full hover:bg-primary/10 transition flex items-center justify-center'
                     >
                         {showSearch ? (
-                            <IoClose className="text-2xl text-secondary" />
+                            <IoClose className='text-2xl text-secondary' />
                         ) : (
-                            <FiSearch className="text-xl text-secondary" />
+                            <FiSearch className='text-xl text-secondary' />
                         )}
                     </button>
 
                     {/* Notification */}
-                    <button className="relative h-10 w-10 rounded-full hover:bg-primary/10 transition flex items-center justify-center">
-                        <IoMdNotificationsOutline className="text-2xl text-secondary" />
+                    <button className='relative h-10 w-10 rounded-full hover:bg-primary/10 transition flex items-center justify-center'>
+                        <IoMdNotificationsOutline className='text-2xl text-secondary' />
 
-                        <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-error"></span>
+                        <span className='absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-error'></span>
                     </button>
 
                     {/* Profile */}
                     <button
                         onClick={() => setManuOpen(!manuOpen)}
-                        className="relative flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-primary/10 transition">
-                        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                            <CgProfile className="text-3xl text-primary" />
+                        className='relative flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-primary/10 transition'>
+                        <div className='h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center'>
+                            <CgProfile className='text-3xl text-primary' />
                         </div>
 
-                        <div className="hidden lg:block text-left">
-                            <p className="text-sm font-semibold text-secondary">
+                        <div className='hidden lg:block text-left'>
+                            <p className='text-sm font-semibold text-secondary'>
                                 {userCredentials.user.fullName}
                             </p>
-                            <p className="text-xs text-secondary/70">
+                            <p className='text-xs text-secondary/70'>
                                 {userCredentials.user.username}
                             </p>
                         </div>
 
                         {manuOpen &&
-                            <div className="absolute top-12 right-0">
-                                <ul className="bg-bg min-w-56 shadow-md rounded-md font-medium border border-border overflow-hidden">
-                                    <li className="border-b border-border">
+                            <div className='absolute top-12 right-0'>
+                                <ul className='bg-bg min-w-56 shadow-md rounded-md font-medium border border-border overflow-hidden'>
+                                    <li className='border-b border-border'>
                                         <Link
-                                            to="/dashboard"
-                                            className="flex items-center gap-3 p-3 hover:bg-primary/10 transition"
+                                            to='/'
+                                            className='flex items-center gap-3 p-3 hover:bg-primary/10 transition'
                                         >
-                                            <FiHome className="text-lg text-primary" />
+                                            <FiHome className='text-lg text-primary' />
                                             Dashboard
                                         </Link>
                                     </li>
 
-                                    <li className="border-b border-border">
+                                    <li className='border-b border-border'>
                                         <Link
-                                            to="/profile"
-                                            className="flex items-center gap-3 p-3 hover:bg-primary/10 transition"
+                                            to='/profile'
+                                            className='flex items-center gap-3 p-3 hover:bg-primary/10 transition'
                                         >
-                                            <FiUser className="text-lg text-primary" />
+                                            <FiUser className='text-lg text-primary' />
                                             Profile
                                         </Link>
                                     </li>
 
                                     <li>
                                         <button
-                                            className="w-full flex items-center gap-3 p-3 text-success hover:bg-success/10 transition text-left"
+                                            className='w-full flex items-center gap-3 p-3 text-success hover:bg-success/10 transition text-left'
                                         >
-                                            <FiLogOut className="text-lg" />
+                                            <FiLogOut className='text-lg' />
                                             Sign Out
                                         </button>
                                     </li>
@@ -127,23 +127,23 @@ export default function Nav() {
             {/* Mobile Search Panel */}
             <div
                 className={`sm:hidden overflow-hidden transition-max-h duration-300 ease-in-out ${showSearch
-                    ? "max-h-24 opacity-100 border-t border-border"
-                    : "max-h-0 opacity-0"
+                    ? 'max-h-24 opacity-100 border-t border-border'
+                    : 'max-h-0 opacity-0'
                     }`}
             >
-                <div className="container mx-auto px-4 py-3">
-                    <div className="flex items-center rounded-lg border border-border bg-background px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition">
-                        <FiSearch className="text-secondary text-lg shrink-0" />
+                <div className='container mx-auto px-4 py-3'>
+                    <div className='flex items-center rounded-lg border border-border bg-background px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition'>
+                        <FiSearch className='text-secondary text-lg shrink-0' />
 
                         <Input
                             autoFocus
-                            type="search"
-                            placeholder="Search clients..."
-                            className="border-0 focus:border-0 focus:ring-0 bg-transparent py-2 px-3"
+                            type='search'
+                            placeholder='Search clients...'
+                            className='border-0 focus:border-0 focus:ring-0 bg-transparent py-2 px-3'
                         />
                     </div>
                 </div>
             </div>
         </header>
-    );
+    )
 }

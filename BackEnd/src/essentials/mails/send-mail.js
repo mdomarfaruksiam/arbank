@@ -1,32 +1,32 @@
-const dns = require("dns");
-dns.setDefaultResultOrder("ipv4first");
-const nodemailer = require("nodemailer");
+const dns = require('dns')
+dns.setDefaultResultOrder('ipv4first')
+const nodemailer = require('nodemailer')
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: 'smtp.gmail.com',
     port: 587,
     secure: false,
     auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD,
     },
-});
+})
 
 transporter.verify((error) => {
     if (error) {
-        console.error("SMTP Error:", error);
+        console.error('SMTP Error:', error)
     } else {
-        console.log("SMTP Server Connected");
+        console.log('SMTP Server Connected')
     }
-});
+})
 
 const sendEmail = async ({ to, subject, text, html }) => {
     return transporter.sendMail({
-        from: `"ARBank" <${process.env.EMAIL}>`,
+        from: `'ARBank' <${process.env.EMAIL}>`,
         to,
         subject,
         text,
         html,
-    });
-};
+    })
+}
 
-module.exports = sendEmail;
+module.exports = sendEmail

@@ -1,5 +1,5 @@
 const passwordResetOtpTemplate = (otpCode) => {
-    return ``;
-};
+    return ``
+}
 
-module.exports = passwordResetOTP;
+module.exports = passwordResetOTP
