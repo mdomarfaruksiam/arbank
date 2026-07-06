@@ -18,6 +18,7 @@ import ForgetPassword from './Components/ForgetPassword'
 import Loading from './Components/Loading'
 
 import links from './Essentials/links'
+import Dashboard from './Components/afterSignIn/Dashboard'
 
 export default function App() {
   const [isLoading, setLoading] = useState(true)
@@ -72,16 +73,14 @@ export default function App() {
             {
               index: true,
               element: userCredentials.isLoggedIn ? (
-                <h1>Logged In</h1>
+                <Dashboard />
               ) : (
                 <Home />
               ),
             },
             {
               path: 'forget-password',
-              element: userCredentials.isLoggedIn
-                ? <h1>You are logged in</h1>
-                : <ForgetPassword />,
+              element: <ForgetPassword />,
             },
             {
               path: 'sign-out',

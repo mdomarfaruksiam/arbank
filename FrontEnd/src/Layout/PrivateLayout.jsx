@@ -11,7 +11,9 @@ export default function PrivateLayout() {
     return (
         <div className='min-h-dvh flex flex-col justify-between'>
             <Nav />
-            <Outlet />
+            <div className='container mx-auto '>
+                <Outlet />
+            </div>
             <Footer />
         </div>
     )
