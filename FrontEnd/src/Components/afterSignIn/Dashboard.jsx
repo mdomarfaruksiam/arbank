@@ -8,7 +8,7 @@ export default function Dashboard() {
     const [isCardLoading, setLoading] = useState(false)
     const [isStateMentLoading, setStateMentLoading] = useState(false)
 
-    const options = ['SAVINGS', 'FDR/DPS', 'LOAN']
+    const options = ['SAVINGS', 'FDR', 'DPS', 'LOAN']
 
     const [activeTab, setActiveTab] = useState(options[0])
 
@@ -87,7 +87,7 @@ export default function Dashboard() {
         <main>
 
             {/* options to check */}
-            <div className='text-center m-4 overflow-x-auto'>
+            <div className='text-center p-4 overflow-x-auto'>
                 <ul className="flex gap-4 text-center">
                     {options.map((item, key) => (
                         <li
