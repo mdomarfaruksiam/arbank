@@ -59,9 +59,10 @@ export default function SignIn() {
 
         setErr(errors)
 
-        if (errors.username || errors.password) return
-        else
+        if (!errors.username && !errors.password) {
             handleSignIn()
+        }
+        setLoading(false)
     }
 
     return (
@@ -113,6 +114,7 @@ export default function SignIn() {
                     />
                 </div>
             </form>
-            }</>
+            }
+        </>
     )
 }
