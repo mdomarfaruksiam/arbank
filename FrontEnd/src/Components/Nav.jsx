@@ -12,7 +12,7 @@ import {
     FiLogOut,
 } from 'react-icons/fi'
 
-import { MdOutlinePayments } from 'react-icons/md'
+import { MdAddCard, MdOutlinePayments } from 'react-icons/md'
 
 import Input from '../Utils/Input'
 import { authContext } from '../Context'
@@ -110,6 +110,22 @@ export default function Nav() {
                                         </Link>
                                     </li>
 
+                                    {userCredentials.user.role === 'chashier'
+                                        ?
+                                        <>
+                                            <li className='border-b border-border'>
+                                                <Link
+                                                    to='/add-balance'
+                                                    className='flex items-center gap-3 p-3 hover:bg-primary/10 transition'
+                                                >
+                                                    <MdAddCard className='text-lg text-primary' />
+                                                    Add balance
+                                                </Link>
+                                            </li>
+                                        </>
+                                        :
+                                        <></>}
+
                                     <li>
                                         <Link
                                             to='/sign-out'
@@ -123,14 +139,15 @@ export default function Nav() {
                             </div>}
                     </button>
                 </div>
-            </nav>
+            </nav >
 
             {/* Mobile Search Panel */}
-            <div
+            < div
                 className={`sm:hidden overflow-hidden transition-max-h duration-300 ease-in-out ${showSearch
                     ? 'max-h-24 opacity-100 border-t border-border'
                     : 'max-h-0 opacity-0'
-                    }`}
+                    }`
+                }
             >
                 <div className='container mx-auto px-4 py-3'>
                     <div className='flex items-center rounded-lg border border-border bg-background px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition'>
@@ -144,7 +161,7 @@ export default function Nav() {
                         />
                     </div>
                 </div>
-            </div>
-        </header>
+            </div >
+        </header >
     )
 }
