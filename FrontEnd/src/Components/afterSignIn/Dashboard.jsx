@@ -14,13 +14,13 @@ export default function Dashboard() {
 
     const [accountStatus, setAccountStatus] = useState({
         account: 'current savings account',
-        accountNumber: '125869',
+        accountNumber: 'Rahela begum',
         active: true,
-        balance: 5000,
+        balance: '5000',
         lastPaymentHistory: {
-            amout: '100',
-            date: '10-02-2025',
-            paymentBy: 'Mokhlesur rahman'
+            lastPayment: '100',
+            lastPaymentDate: '10-02-2025',
+            lastPaymentBy: 'Mokhlesur rahman'
         }
     })
 
@@ -77,7 +77,12 @@ export default function Dashboard() {
                 account: 'DPS account',
                 accountNumber: 'Rahela begum',
                 active: false,
-                balance: '',
+                balance: '200',
+                lastPaymentHistory: {
+                    lastPayment: '100',
+                    lastPaymentDate: '01-01-2026',
+                    lastPaymentBy: 'Mokhlesur rahman'
+                }
             })
         }
         setLoading(false)
@@ -85,7 +90,7 @@ export default function Dashboard() {
     }
 
     return (
-        <main>
+        <main className='px-2'>
 
             {/* options to check */}
             <div className='text-center p-4 overflow-x-auto'>
@@ -105,10 +110,13 @@ export default function Dashboard() {
             </div>
 
             {/* balance card */}
-            <BalanceCard accountStatus={accountStatus} isCardLoading={isCardLoading} />
+            <BalanceCard
+                accountStatus={accountStatus}
+                isCardLoading={isCardLoading} />
 
             {/* mini stateMent */}
-            <MiniStatement payemtHistories={payemtHistories} />
+            <MiniStatement
+                payemtHistories={payemtHistories} />
         </main>
     )
 }

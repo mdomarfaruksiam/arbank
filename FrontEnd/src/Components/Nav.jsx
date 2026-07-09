@@ -16,6 +16,7 @@ import { MdAddCard, MdOutlinePayments } from 'react-icons/md'
 
 import Input from '../Utils/Input'
 import { authContext } from '../Context'
+import { RiMessengerLine } from "react-icons/ri"
 
 export default function Nav() {
 
@@ -66,8 +67,11 @@ export default function Nav() {
                     {/* Notification */}
                     <button className='relative h-10 w-10 rounded-full hover:bg-primary/10 transition flex items-center justify-center'>
                         <IoMdNotificationsOutline className='text-2xl text-secondary' />
+                    </button>
 
-                        <span className='absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-error'></span>
+                    {/* message */}
+                    <button className='relative h-10 w-10 rounded-full hover:bg-primary/10 transition flex items-center justify-center'>
+                        <RiMessengerLine className='text-2xl text-secondary' />
                     </button>
 
                     {/* Profile */}
@@ -110,7 +114,7 @@ export default function Nav() {
                                         </Link>
                                     </li>
 
-                                    {userCredentials.user.role === 'chashier'
+                                    {userCredentials.user.role === 'cashier'
                                         ?
                                         <>
                                             <li className='border-b border-border'>

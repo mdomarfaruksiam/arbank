@@ -9,7 +9,7 @@ export default function Button({
     return (
         <button
             type={type}
-            className={`w-full bg-primary text-white py-3 rounded-lg font-semibold hover:opacity-90 transition ${className}`}
+            className={`w-full py-3 rounded-lg font-semibold hover:opacity-90 transition ${className}`}
             {...props}
         >
             {label}

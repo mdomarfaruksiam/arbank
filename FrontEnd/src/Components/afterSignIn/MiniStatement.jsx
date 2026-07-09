@@ -3,7 +3,7 @@ import React from 'react'
 export default function MiniStatement({ payemtHistories }) {
     return (
 
-        <div className='bg-border mt-4 rounded-md capitalize overflow-hidden'>
+        <div className='bg-border my-4 rounded-md capitalize overflow-hidden'>
             <h1 className='font-semibold p-2'>
                 Mini Statement: <span className='text-accent font-bold'>SAVINGS</span>
             </h1>

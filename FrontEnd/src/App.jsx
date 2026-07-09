@@ -19,6 +19,7 @@ import Loading from './Components/Loading'
 
 import links from './Essentials/links'
 import Dashboard from './Components/afterSignIn/Dashboard'
+import AddBalance from './Components/afterSignIn/cashier/AddBalance'
 
 export default function App() {
   const [isLoading, setLoading] = useState(true)
@@ -85,6 +86,12 @@ export default function App() {
             {
               path: 'sign-out',
               element: <SignOut />,
+            },
+            {
+              path: 'add-balance',
+              element:
+                userCredentials.isLoggedIn
+                  && userCredentials.user.role === 'cashier' ? <AddBalance /> : <>404</>,
             },
           ],
         },

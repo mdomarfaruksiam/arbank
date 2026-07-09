@@ -19,7 +19,7 @@ export default function Footer() {
                 </ul>
 
                 <p className='text-white text-center capitalize'>
-                    © {new Date().getFullYear()} OurBank. All rights reserved. <br />
+                    © {new Date().getFullYear()} ARBank. All rights reserved. <br />
                     <span className='text-xs'>developer gmail- m.omarfaruksiam@gmail.com</span>
                 </p>
             </div>

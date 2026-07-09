@@ -29,20 +29,20 @@ export default function BalanceCard({ accountStatus, isCardLoading }) {
                         <div className='pt-4 px-2 py-2 text-sm text-muted font-medium flex justify-between flex-wrap gap-2'>
                             <span>
                                 last payment:
-                                {' ' + accountStatus?.lastPaymentHistory.amount} <span className='text-[8px]'>BDT</span>
+                                {' ' + accountStatus?.lastPaymentHistory.lastPayment} <span className='text-[8px]'>BDT</span>
                             </span>
 
                             <span>
                                 pay date:
                                 <span className='text-xs'>
-                                    {' ' + accountStatus?.lastPaymentHistory.date}
+                                    {' ' + accountStatus?.lastPaymentHistory.lastPaymentDate}
                                 </span>
                             </span>
 
                             <span>
                                 By:
                                 <span className='text-xs'>
-                                    {' ' + accountStatus?.lastPaymentHistory.paymentBy}
+                                    {' ' + accountStatus?.lastPaymentHistory.lastPaymentBy}
                                 </span>
                             </span>
                         </div>}
