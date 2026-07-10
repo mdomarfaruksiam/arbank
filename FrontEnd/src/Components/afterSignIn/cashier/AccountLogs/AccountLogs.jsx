@@ -72,7 +72,8 @@ export default function AccountLogs() {
                         <div className='sm:col-span-full lg:col-auto'>
                             <Input
                                 label={'savings balance'}
-                                placeholder={'Available balance will be here'} />
+                                placeholder={'Available balance will be here'}
+                                readOnly />
                         </div>
                     </div>
                     <div className='space-y-2 flex flex-col justify-center items-center'>
