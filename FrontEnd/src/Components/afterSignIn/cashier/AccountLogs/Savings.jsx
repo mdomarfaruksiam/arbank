@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Input from '../../../../Utils/Input'
 import Button from '../../../../Utils/Button'
 
-export default function Savings({ account = {} }) {
+export default function Savings({ index, openSection, account = {} }) {
     const options = ['FDR', 'DPS', 'LOAN', 'WITHDRAWAL', 'PROFIT', 'LATEFEE']
     const [showOptions, setShowOptions] = useState(false)
 
@@ -28,7 +28,13 @@ export default function Savings({ account = {} }) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className='p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+        <form
+            onSubmit={handleSubmit}
+            className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 transition-all
+            ${openSection === index
+                    ? "max-h-150 p-4 gap-4 duration-500"
+                    : "max-h-0 p-0 gap-0 overflow-hidden duration-300"}`} >
+
             <Input
                 label='Amount'
                 placeholder='Enter amount'

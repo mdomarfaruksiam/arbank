@@ -3,9 +3,16 @@ import { IoIosArrowDown } from "react-icons/io";
 import Savings from './Savings';
 import Input from '../../../../Utils/Input';
 import Select from '../../../../Utils/Select';
+import FDR from './FDR';
+import DPS from './DPS';
+import Loan from './Loan';
 
 
 export default function AccountLogs() {
+    const [openSection, setOpenSection] = useState(0)
+    const sections = ['Savings account', 'FDR', 'DPS', 'Loan']
+
+
     const options = ['president', 'secretary', 'cashier', 'member']
     const [showOptions, setShowOptions] = useState(false)
     const [account, setAccount] = useState({
@@ -18,7 +25,7 @@ export default function AccountLogs() {
             <form className='bg-surface mb-10 rounded-lg p-2'>
                 <h1 className='font-bold text-xl text-accent mb-5'>Account details</h1>
                 <div className='flex gap-4'>
-                    <div className="grid sm:grid-cols-2 gap-4 w-full">
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
                         <div className="relative">
                             <Input
                                 label="Account Name"
@@ -61,6 +68,12 @@ export default function AccountLogs() {
                             label="Date"
                             type="datetime-local"
                         />
+
+                        <div className='sm:col-span-full lg:col-auto'>
+                            <Input
+                                label={'savings balance'}
+                                placeholder={'Available balance will be here'} />
+                        </div>
                     </div>
                     <div className='space-y-2 flex flex-col justify-center items-center'>
                         <img
@@ -70,15 +83,56 @@ export default function AccountLogs() {
                     </div>
                 </div>
             </form>
-            <ul className='grid gap-4'>
-                <li className='bg-surface rounded-lg'>
-                    <div className='flex justify-between items-center px-4 py-2 border-b border-border'>
-                        <span
-                            className='capitalize text-lg font-bold text-info'>Savigs account</span>
-                        <span><IoIosArrowDown /></span>
-                    </div>
-                    <Savings account={account} />
-                </li>
+            <ul className="grid gap-2">
+                {sections.map((section, index) => (
+                    <li key={index} className="bg-surface rounded-lg">
+                        <button
+                            type="button"
+                            onClick={() => setOpenSection(index)}
+                            className="w-full flex justify-between items-center px-4 py-2 border-b border-border"
+                        >
+                            <span className="capitalize text-lg font-bold text-info">
+                                {section}
+                            </span>
+
+                            <IoIosArrowDown
+                                className={`transition-transform rounded-[50%] p-1 text-3xl flex justify-center hover:bg-border/50 items-center ${openSection === index ? "rotate-180 bg-border" : ""
+                                    }`}
+                            />
+                        </button>
+                        {index === 0 && (
+                            <Savings
+                                index={index}
+                                openSection={openSection}
+                                account={account}
+                            />
+                        )}
+
+                        {index === 1 && (
+                            <FDR
+                                index={index}
+                                openSection={openSection}
+                                account={account}
+                            />
+                        )}
+
+                        {index === 2 && (
+                            <DPS
+                                index={index}
+                                openSection={openSection}
+                                account={account}
+                            />
+                        )}
+
+                        {index === 3 && (
+                            <Loan
+                                index={index}
+                                openSection={openSection}
+                                account={account}
+                            />
+                        )}
+                    </li>
+                ))}
             </ul>
         </main>
     )
