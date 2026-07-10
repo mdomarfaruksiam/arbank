@@ -12,7 +12,7 @@ import {
     FiLogOut,
 } from 'react-icons/fi'
 
-import { MdAddCard, MdOutlinePayments } from 'react-icons/md'
+import { MdAddCard, MdOutlineAccountBalance, MdOutlinePayments } from 'react-icons/md'
 
 import Input from '../Utils/Input'
 import { authContext } from '../Context'
@@ -124,6 +124,16 @@ export default function Nav() {
                                                 >
                                                     <MdAddCard className='text-lg text-primary' />
                                                     Add balance
+                                                </Link>
+                                            </li>
+
+                                            <li className='border-b border-border'>
+                                                <Link
+                                                    to='/account-logs'
+                                                    className='flex items-center gap-3 p-3 hover:bg-primary/10 transition'
+                                                >
+                                                    <MdOutlineAccountBalance className='text-lg text-primary' />
+                                                    Account logs
                                                 </Link>
                                             </li>
                                         </>
