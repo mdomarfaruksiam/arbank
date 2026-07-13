@@ -15,6 +15,7 @@ export default function AccountLogs() {
 
     const options = ['president', 'secretary', 'cashier', 'member']
     const [showOptions, setShowOptions] = useState(false)
+
     const [account, setAccount] = useState({
         username: '',
         date: '',
@@ -90,11 +91,14 @@ export default function AccountLogs() {
                         <button
                             type="button"
                             onClick={() => setOpenSection(index)}
-                            className="w-full flex justify-between items-center px-4 py-2 border-b border-border"
+                            className="w-full flex justify-between items-center gap-5 px-4 py-2 border-b border-border"
                         >
-                            <span className="capitalize text-lg font-bold text-info">
-                                {section}
-                            </span>
+                            <div className='flex items-center justify-between w-full'>
+                                <span className="capitalize text-lg font-bold text-info">
+                                    {section}
+                                </span>
+                                <span className='text-xs font-semibold text-primary bg-border p-1 rounded'> Active</span>
+                            </div>
 
                             <IoIosArrowDown
                                 className={`transition-transform rounded-[50%] p-1 text-3xl flex justify-center hover:bg-border/50 items-center ${openSection === index ? "rotate-180 bg-border" : ""

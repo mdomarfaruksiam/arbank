@@ -49,7 +49,7 @@ export default function Savings({ index, openSection, account = {} }) {
                 onChange={(e) => handleInputChange('depositorName', e.target.value)}
             />
 
-            <div className="relative">
+            {/* <div className="relative">
                 <Input
                     label='Transaction Type'
                     placeholder='Enter transaction type'
@@ -78,7 +78,7 @@ export default function Savings({ index, openSection, account = {} }) {
                         </div>
                     </div>
                 )}
-            </div>
+            </div> */}
 
             <Input
                 label='Special note'
